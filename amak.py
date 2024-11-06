@@ -48,7 +48,7 @@ class Agent:
             self.amas.agents.remove(self)
 
 
-class AMAS:
+class MAS:
     def __init__(self, environment):
         self.environment = environment
         self.agents = []
