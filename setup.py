@@ -1,9 +1,11 @@
 from setuptools import find_packages, setup
+from setuptools.command.install import install
 
 setup(
     name='amak',
     packages=find_packages(include=['amak']),
-    version='0.2.0',
+    version='0.3.0',
     description='Simplified AMAK for Python',
     author='Alexandre Perles',
+    install_requires=["pygame"]
 )

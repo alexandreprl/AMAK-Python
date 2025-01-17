@@ -1,14 +1,3 @@
-class Scheduler:
-    def __init__(self, amas, environment):
-        self.amas = amas
-        self.environment = environment
-
-    def start(self):
-        while not self.amas.is_ready_to_stop():
-            self.amas.cycle()
-            self.environment.cycle()
-
-
 class Agent:
     def __init__(self, amas):
         self.messages = []
@@ -34,13 +23,19 @@ class Agent:
         self.on_act()
 
     def is_ready_to_stop(self):
-        return self.messages == []
+        return False
 
     def tell(self, other, message):
         other.receive(self, message)
 
     def receive(self, sender, message):
         self.messages.append((sender, message))
+
+    def read_message(self):
+        if self.messages:
+            return self.messages.pop(0)
+        else:
+            return None
 
     def destroy(self):
         self.state = 'destroyed'
@@ -63,3 +58,15 @@ class MAS:
 
     def is_ready_to_stop(self):
         return self.are_all_agents_ready_to_stop()
+
+
+class Scheduler:
+    def __init__(self, amas, environment):
+        self.amas = amas
+        self.environment = environment
+
+    def start(self):
+        while not self.amas.is_ready_to_stop():
+            self.amas.cycle()
+            self.environment.cycle()
+
