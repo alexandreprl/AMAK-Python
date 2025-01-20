@@ -78,7 +78,7 @@ class MAS:
         return all_agents_are_ready_to_stop
 
     def is_ready_to_stop(self):
-        return self.are_all_agents_ready_to_stop()
+        return self.are_all_agents_ready_to_stop() and self.agents_pending_addition == [] and self.agents_pending_removal == []
 
     def on_system_cycle_start(self):
         pass
