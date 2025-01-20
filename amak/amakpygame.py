@@ -62,6 +62,7 @@ class EnvironmentEntity:
         self.surface.fill(color)
         self.rect = self.surface.get_rect(center=initial_position)
 
+
     def set_position(self, position):
         self.rect.center = position
 
