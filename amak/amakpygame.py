@@ -1,4 +1,6 @@
 import pygame
+import pygame_widgets
+from pygame_widgets.slider import Slider
 
 from amak import amak
 
@@ -8,12 +10,13 @@ class AMAKPygame:
         self._running = False
         self._display_surf = None
         self.fps = fps
-        self.size = width, height
+        self.size = width, height+40
         self.amas = amas
         self.environment = environment
         pygame.init()
         self._display_surf = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
         pygame.display.set_caption("AMAK - Python")
+        self.slider = Slider(self._display_surf, 20, height+10, 100, 20, min=1, max=100, step=1,initial=50)
         self.clock = pygame.time.Clock()
         self.start()
 
@@ -28,7 +31,8 @@ class AMAKPygame:
 
     def on_execute(self):
         while self._running and not self.amas.is_ready_to_stop():
-            for event in pygame.event.get():
+            events = pygame.event.get()
+            for event in events:
                 self.on_event(event)
             self.amas.cycle()
             self.environment.cycle()
@@ -40,8 +44,9 @@ class AMAKPygame:
                 if entity.surface and entity.rect:
                     self._display_surf.blit(entity.surface, entity.rect)
 
+            pygame_widgets.update(events)
             pygame.display.update()
-            self.clock.tick(self.fps)
+            self.clock.tick(self.slider.getValue())
         pygame.quit()
 
 
@@ -61,7 +66,6 @@ class EnvironmentEntity:
         self.surface = pygame.Surface((10, 10))
         self.surface.fill(color)
         self.rect = self.surface.get_rect(center=initial_position)
-
 
     def set_position(self, position):
         self.rect.center = position
