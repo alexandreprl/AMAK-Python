@@ -50,7 +50,7 @@ class AMAKPygame:
         pygame.quit()
 
 
-class AgentEntity(amak.Agent):
+class RenderableAgent(amak.Agent):
     def __init__(self, mas, initial_position, color=(255, 255, 255)):
         super().__init__(mas)
         self.surface = pygame.Surface((10, 10))
@@ -61,7 +61,7 @@ class AgentEntity(amak.Agent):
         self.rect.center = position
 
 
-class EnvironmentEntity:
+class RenderableEntity:
     def __init__(self, initial_position, color=(255, 255, 255)):
         self.surface = pygame.Surface((10, 10))
         self.surface.fill(color)
