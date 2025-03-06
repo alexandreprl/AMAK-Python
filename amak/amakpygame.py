@@ -41,7 +41,7 @@ class AMAKPygame:
             self.environment.render(self._display_surf)
 
             for entity in self.amas.agents:
-                if entity.surface and entity.rect:
+                if entity is RenderableAgent and entity.surface and entity.rect:
                     self._display_surf.blit(entity.surface, entity.rect)
 
             pygame_widgets.update(events)
