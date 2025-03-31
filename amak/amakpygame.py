@@ -5,7 +5,7 @@ from pygame_widgets.slider import Slider
 from amak import amak
 
 
-class AMAKPygame:
+class PygameScheduler:
     def __init__(self, amas, environment, width=640, height=480, fps=60):
         self._running = False
         self._display_surf = None
@@ -34,6 +34,7 @@ class AMAKPygame:
             events = pygame.event.get()
             for event in events:
                 self.on_event(event)
+            self.environment.events = events
             self.amas.cycle()
             self.environment.cycle()
 
