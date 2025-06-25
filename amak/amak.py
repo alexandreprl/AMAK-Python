@@ -43,6 +43,7 @@ class Agent:
     def destroy(self):
         self.state = 'destroyed'
         self.amas.agents_pending_removal.append(self)
+        self.amas.agents_pending_addition.remove(self)
 
 class ExecutionPolicy(Enum):
     ONE_PHASE = 1
