@@ -58,26 +58,31 @@ class MAS:
         self.agents_pending_addition = []
         self.agents_pending_removal = []
         self.execution_policy = execution_policy
+        self.all_agents_ready_to_stop = True
 
     def cycle(self):
         self.on_system_cycle_start()
         self.remove_pending_agents()
         self.add_pending_agents()
+        self.all_agents_ready_to_stop = True
         if self.execution_policy is ExecutionPolicy.ONE_PHASE:
             for agent in self.agents:
                 agent.cycle()
+                if not agent.is_ready_to_stop():
+                    self.all_agents_ready_to_stop = False
         else:
             for agent in self.agents:
                 agent.on_perceive()
             for agent in self.agents:
                 agent.on_decide_and_act()
+            if not agent.is_ready_to_stop():
+                self.all_agents_ready_to_stop = False
         self.remove_pending_agents()
         self.add_pending_agents()
         self.on_system_cycle_end()
 
     def are_all_agents_ready_to_stop(self):
-        all_agents_are_ready_to_stop = all(agent.is_ready_to_stop() for agent in self.agents)
-        return all_agents_are_ready_to_stop
+        return self.all_agents_ready_to_stop
 
     def is_ready_to_stop(self):
         return self.are_all_agents_ready_to_stop() and self.agents_pending_addition == [] and self.agents_pending_removal == []
